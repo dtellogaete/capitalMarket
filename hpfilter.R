@@ -1,20 +1,28 @@
 
 # Install the package
 install.packages('mFilter')
+
+# Importar data
+library(quantmod)
 library(mFilter)
-data(unemp)
+
+dataset = getSymbols("BOLSAA.MX", from="2015-01-01",src="yahoo",auto.assign = F)[,6]
+date_dataset = index(date_dataset)
+plot(dataset)
+
+dataset = ts(as.numeric(dataset), start = c(2015,1)) 
 
 opar <- par(no.readonly=TRUE)
 
-unemp.hp <- hpfilter(unemp)
+unemp.hp <- hpfilter(dataset)
 plot(unemp.hp)
-unemp.hp1 <- hpfilter(unemp, drift=TRUE)
-unemp.hp2 <- hpfilter(unemp, freq=800, drift=TRUE)
-unemp.hp3 <- hpfilter(unemp, freq=12,type="frequency",drift=TRUE)
-unemp.hp4 <- hpfilter(unemp, freq=52,type="frequency",drift=TRUE)
+unemp.hp1 <- hpfilter(dataset, drift=TRUE)
+unemp.hp2 <- hpfilter(dataset, freq=800, drift=TRUE)
+unemp.hp3 <- hpfilter(dataset, freq=12,type="frequency",drift=TRUE)
+unemp.hp4 <- hpfilter(dataset, freq=52,type="frequency",drift=TRUE)
 
 par(mfrow=c(2,1),mar=c(3,3,2,1),cex=.8)
-plot(unemp.hp1$x,  ylim=c(2,13),
+plot(unemp.hp2$x,  ylim=c(2,13),
      main="Hodrick-Prescott filter of unemployment: Trend, drift=TRUE",
      col=1, ylab="")
 lines(unemp.hp1$trend,col=2)
