@@ -10,7 +10,10 @@ dataset = getSymbols("BOLSAA.MX", from="2015-01-01",src="yahoo",auto.assign = F)
 date_dataset = index(date_dataset)
 plot(dataset)
 
-dataset = ts(as.numeric(dataset), start = c(2015,1)) 
+dataset = ts(as.numeric(dataset), start = c(2015,1))
+nRow = length(dataset)
+
+unam = data("unemp")
 
 opar <- par(no.readonly=TRUE)
 
